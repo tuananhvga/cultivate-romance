@@ -1,0 +1,7 @@
+{
+  "baseUrl": "https://as.api.h5.wildrift.leagueoflegends.com/5c/crystalrose",
+  "refreshUrl": "https://xsso.leagueoflegends.com/refresh",
+  "refreshReferer": "https://xsso.leagueoflegends.com/riot-owned-iframe",
+  "referer": "https://crystalrosegame.wildrift.leagueoflegends.com/",
+  "origin": "https://crystalrosegame.wildrift.leagueoflegends.com"
+}
