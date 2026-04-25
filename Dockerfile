@@ -21,7 +21,7 @@ COPY package*.json ./
 RUN npm ci --omit=dev
 
 COPY --from=builder /app/dist ./dist
-COPY config.json ./
+COPY *.json ./
 
 ENV NODE_ENV=production
 
