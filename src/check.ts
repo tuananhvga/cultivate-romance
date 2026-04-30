@@ -3,6 +3,7 @@ import { buy } from "./client/actions/buy";
 import { getStore, StoreItem } from "./client/actions/getStore";
 import { userSeed, userFlower, PackageItem } from "./client/actions/userPackage";
 import desired from "../desired.json";
+import { getAllMissions, missionSubmit } from "./client/actions/mission";
 
 const DESIRED_SEED_COUNT = 6;
 
@@ -24,7 +25,7 @@ async function ensureSeedCount(client: HttpClient, seeds: PackageItem[], store: 
 function getPlantQueue(flowers: PackageItem[], store: StoreItem[], garden: GardenInfo[]): { id: number; name: string }[] {
   const flowerStatuses = store.filter(s => s.unlockedStatus === 1).map(s => {
     const flowerName = s.sName.slice(0, s.sName.length - 5);
-    
+
     // count in package
     const countPackage = flowers.find(flower => flower.sItemName === flowerName)?.iAmount ?? 0;
 
@@ -49,6 +50,15 @@ function getPlantQueue(flowers: PackageItem[], store: StoreItem[], garden: Garde
     mostNeeded.need = Math.max(mostNeeded.need - 1, 0);
   }
   return result;
+}
+
+async function submitMissions(client: HttpClient) {
+  const { main } = await getAllMissions(client);
+  const finishedMissions = main.filter(m => m.iStatus === 1);
+  for (const mission of finishedMissions) {
+    await missionSubmit(client, 1, mission.questId);
+    console.log(`Submitted mission ${mission.questName}.`);
+  }
 }
 
 export async function check(client: HttpClient) {
@@ -81,5 +91,6 @@ export async function check(client: HttpClient) {
       console.log(`Watered land ${g.landIndex}.`);
     }
   }
+  await submitMissions(client);
   return { needs };
 }
