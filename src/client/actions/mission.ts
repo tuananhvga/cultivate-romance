@@ -84,7 +84,7 @@ export interface AllMissions {
 }
 
 export interface AllMissionsResponse {
-  missions: AllMissions
+  mission: AllMissions
   ams_serial: string
 }
 
@@ -97,7 +97,7 @@ export interface MissionSubmitResponse {
 /** POST /pub/init?a=getAllMissions */
 export async function getAllMissions(client: HttpClient): Promise<AllMissions> {
   const result = await client.post<AllMissionsResponse>("pub/init", {}, { params: { a: "getAllMissions" } });
-  return result.missions;
+  return result.mission;
 }
 
 /** POST /pub/mission?a=missionSubmit */
