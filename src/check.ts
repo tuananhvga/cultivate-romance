@@ -53,11 +53,16 @@ function getPlantQueue(flowers: PackageItem[], store: StoreItem[], garden: Garde
 }
 
 async function submitMissions(client: HttpClient) {
-  const { main } = await getAllMissions(client);
+  const { main, chapter } = await getAllMissions(client);
   const finishedMissions = main.filter(m => m.iStatus === 1);
   for (const mission of finishedMissions) {
     await missionSubmit(client, 1, mission.questId);
     console.log(`Submitted mission ${mission.questName}.`);
+  }
+  const finishedChapterMissions = chapter.missionInfo.filter(m => m.iStatus === 1);
+  for (const mission of finishedChapterMissions) {
+    await missionSubmit(client, 2, mission.questId);
+    console.log(`Submitted chapter mission ${mission.questName}.`);
   }
 }
 
